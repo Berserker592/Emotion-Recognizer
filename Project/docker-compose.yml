@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    container_name: emotion_analysis_app
+    ports:
+      - "8000:8000"  # Mapea el puerto 8000 del contenedor al 8000 del host
+    volumes:
+      - .:/app  # Sincroniza tu directorio local con el contenedor
+

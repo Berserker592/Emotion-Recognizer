@@ -1,0 +1,25 @@
+# Usar una imagen base de Python para el backend
+FROM python:3.10-slim
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx libglib2.0-0 libavcodec-dev libavformat-dev libswscale-dev && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Crear directorio de la app
+WORKDIR /app
+
+# Copiar dependencias del backend
+COPY app/requirements.txt /app/requirements.txt
+
+# Instalar dependencias de Python
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copiar la aplicación
+COPY app /app
+
+# Exponer el puerto (FastAPI corre en el puerto 8000 por defecto)
+EXPOSE 8000
+
+# Comando para iniciar el servidor
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
