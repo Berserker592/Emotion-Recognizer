@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis de Emociones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #166d96, #1d1d1f);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: -webkit-linear-gradient(45deg, #0b3346, #928dab);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #ddd;
+        }
+
+        .video-container {
+            background: #2a2a2a;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            width: 85%;
+            max-width: 900px;
+            margin: 20px 0;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            background: #166d96;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #274d6e;
+            transform: scale(1.05);
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 85%;
+        }
+
+        .chart {
+            background: #f2eeee;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .chart:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .chart canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Analisis de Emociones</h1>
+            <p>Analiza emociones en tiempo real.</p>
+        </header>
+        <div class="video-container">
+            <img id="placeholder" src="https://img.freepik.com/vector-gratis/cientificos-personas-diminutas-identifican-emociones-mujeres-partir-voz-rostro-deteccion-emociones-reconocimiento-estado-emocional-concepto-tecnologia-sensor-emo_335657-2442.jpg?t=st=1735614440~exp=1735618040~hmac=a283e592529d7edc65c66b8a992dc43b1373f2c31dd37c3f8d6d34575bff20e4&w=1060" alt="Esperando video..." style="width: 100%; display: block;">
+            <video id="video"  autoplay style="display: none;"></video>
+            <video id="uploadedVideo" controls width="400" autoplay style="display: none;"></video>  
+        </div>
+        <div class="button-container">
+            <button id="startanalisis" class="btn" onclick="startStream()">Iniciar Análisis</button><br>
+            <button id="analyzeVideoBtn" class="btn" onclick="playStream()">Analizar Video</button>
+            <input id="videoUpload" type="file" class="btn" accept="video/*" /><br>
+            <button id="saveButton" class="btn" onclick="stopRecording()">Guardar</button>
+            <button id="toggle-btn" class="btn" onclick="toggleAnalysis()">Pausar</button>
+            <button id="ReportsButton" class="btn" onclick="fetchReports() ">Ver Reportes</button>
+            <button id="startButton2" class="btn" onclick="startStream() ">Iniciar Otro Analisis</button>
+
+
+        </div>
+    
+        <p id="NumeroPersonas">Persona detectada: Ninguna</p>
+        <p id="endan">Tiempo Transcurrido: Ninguna</p>
+        <p id="emotion">Emoción detectada: Ninguna</p>
+        <p id="percentage">Porcentaje: Ninguna</p>                
+
+
+        <div class="chart" id="chart1">
+            <canvas id="emotionChart" width="600" height="300" ></canvas>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart" id="chart2">
+                <canvas id="emotionScatterChart" width="400" height="300"></canvas>  
+            </div>
+            <div class="chart" id="chart3">
+                 <canvas id="emotionPolarChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <ul id="report-list"></ul>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+</body>
+</html>
