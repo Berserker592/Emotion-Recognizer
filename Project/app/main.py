@@ -11,11 +11,22 @@ from deepface import DeepFace
 import base64
 import cv2
 import numpy as np
+import subprocess
+
+# Ejecutar el comando 'pwd' en el sistema
+current_directory = subprocess.run(["pwd"], capture_output=True, text=True)
+list_directory = subprocess.run(["ls"], capture_output=True, text=True)
+
+
+# Mostrar el resultado
+print(current_directory.stdout.strip())
+print(list_directory.stdout.strip())
+
 
 app = FastAPI()
 #Montar la carpeta de archivos esenciales
 # CORS y rutas estáticas
-app.mount("/static", StaticFiles(directory="Final_Proyect/static"), name="static")
+app.mount("/static", StaticFiles(directory="/app/static"), name="static")
 
 # Habilitar CORS
 app.add_middleware(
@@ -86,7 +97,7 @@ async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 #Modelo entrenado clasificador
-haar_cascade = cv2.CascadeClassifier('/home/paul/Documentos/PROYECTOS/haar_face.xml')
+haar_cascade = cv2.CascadeClassifier('/app/haar_face.xml')
 
 
 #Vista del procesamiento
